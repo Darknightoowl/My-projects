@@ -1,27 +1,24 @@
-import telebot , random
+import telebot ,random
+from telebot import types
 
-bot = telebot.TeleBot('6126844099:AAF1aPImSF1_yMsBXQdzvwN6hk2yROaMNpw')
 
-@bot.messege_handler(commands=['start'])
+
+
+aaa = ['Нет ни лучшего, ни худшего пути. Есть только твой Путь.', 'Упади семь раз, но поднимись восемь', '«Сова - великий и довольно умный лесной старик. Он также может написать вторник ».', 'Руки матери успокаивают больше, чем чьи-либо еще».']
+bot= telebot.TeleBot('6126844099:AAF1aPImSF1_yMsBXQdzvwN6hk2yROaMNpw')
+
+@bot.message_handler(commands=['start'])
 
 def start(message):
-    bot.send_message(message.chat.id, 'hi')
-     if message.text == 'привет' or message.text == 'как дела':
-        bot.send_message(message.chat.id , random.choise(abc))
-
-         else:
-
-         bot.send_message(message.chat.id 'сова спит')
-
-abc = ['привет', '(:', 'ты кто', 'добро пожаловать',]
-      
-      age = ['25' ,'18' , '15',]
-
-      if message.text == 'сколько вам лет':
-        bot.send_message(message.chat.id random.choise(age))
-
-        else:
-            bot.send_message(message.chat.id, 'сова спит')
-
-
- bot.infinity_poling(none_stop=true)
+   rf = types.InlineKeyboardMarkup()
+   btn1 = types.InlineKeyboardButton('цитата',callback_data="quote")
+   rf.add(btn1)
+   bot.send_message(message.chat.id, random.choice(aaa),reply_markup=rf)
+@bot.callback_query_handler(func = lambda call: True)
+def all_calls(call):
+    if call.data == "quote":
+        rf = types.InlineKeyboardMarkup()
+        btn1 = types.InlineKeyboardButton('цитата',callback_data="quote")
+        rf.add(btn1)
+        bot.edit_message_text(chat_id = call.message.chat.id, message_id = call.message.message_id, text = random.choice(aaa),reply_markup=rf)
+bot.infinity_polling()
